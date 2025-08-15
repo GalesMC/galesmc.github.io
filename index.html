@@ -1,257 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Eaglercraft Server - Single Page Navigation</title>
-  <style>
-    :root {
-      --navy-blue: #002147;
-      --gold: #ffb81c;
-      --light-gray: #f4f4f4;
-      --white: #ffffff;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eaglercraft Server - Lancaster HS</title>
+<style>
+  :root {
+    --navy-blue: #002147;
+    --gold: #ffb81c;
+    --light-gray: #f4f4f4;
+    --white: #ffffff;
+  }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--light-gray);
-      color: var(--navy-blue);
-    }
+  html, body { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-gray); color: var(--navy-blue); }
 
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+  body { display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* Top navigation */
-    nav {
-      background-color: var(--navy-blue);
-      display: flex;
-      justify-content: center;
-      border-bottom: 4px solid var(--gold);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      flex-shrink: 0;
-    }
+  /* Top navigation */
+  nav { background-color: var(--navy-blue); display: flex; justify-content: center; border-bottom: 4px solid var(--gold); position: sticky; top: 0; z-index: 100; flex-shrink: 0; }
+  nav button { background: none; border: none; color: var(--gold); font-weight: 700; padding: 1rem 1.5rem; cursor: pointer; text-transform: uppercase; font-size: 1rem; }
+  nav button:hover { text-decoration: underline; }
 
-    nav button {
-      background: none;
-      border: none;
-      color: var(--gold);
-      font-weight: 700;
-      padding: 1rem 1.5rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      font-size: 1rem;
-    }
+  header { text-align: center; padding: 2rem; font-size: 2rem; font-weight: 900; background: linear-gradient(90deg, var(--navy-blue) 0%, #001530 100%); color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-family: 'Arial Black', Arial, sans-serif; border-bottom: 5px solid var(--gold); flex-shrink: 0; }
 
-    nav button:hover { text-decoration: underline; }
+  main { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; flex: 1; width: 100%; }
 
-    header {
-      text-align: center;
-      padding: 2rem;
-      font-size: 2rem;
-      font-weight: 900;
-      background: linear-gradient(90deg, var(--navy-blue) 0%, #001530 100%);
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-family: 'Arial Black', Arial, sans-serif;
-      border-bottom: 5px solid var(--gold);
-      flex-shrink: 0;
-    }
+  h1, h2, h3 { font-weight: 900; text-transform: uppercase; border-left: 6px solid var(--gold); padding-left: 0.6rem; margin-bottom: 1rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.2rem; border-left: 4px solid var(--gold); padding-left: 0.5rem; margin-top: 1rem; }
 
-    main {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-      flex: 1; /* This allows main content to grow and push footer to bottom */
-      width: 100%;
-    }
+  p, li { font-size: 1.1rem; line-height: 1.6; }
 
-    h1, h2 {
-      font-weight: 900;
-      text-transform: uppercase;
-      border-left: 6px solid var(--gold);
-      padding-left: 0.6rem;
-      margin-bottom: 1rem;
-    }
+  .section-box { background-color: var(--white); border-left: 6px solid var(--gold); border-radius: 8px; padding: 1.5rem; box-shadow: 0 3px 8px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+  .section-box:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); transition: 0.2s; }
 
-    p, li { font-size: 1.1rem; line-height: 1.6; }
+  .rules { background-color: var(--light-gray); border: 2px solid var(--navy-blue); border-radius: 8px; padding: 1rem 1.5rem; margin-top: 1rem; }
+  .rules h3 { background-color: var(--gold); color: var(--navy-blue); padding: 0.5rem 1rem; border-radius: 5px 5px 0 0; margin: -1rem -1.5rem 1rem -1.5rem; font-weight: 900; text-transform: uppercase; font-size: 1.1rem; }
+  .rules ol { padding-left: 1.2rem; margin: 0; }
+  .rules li { margin: 0.5rem 0; font-size: 1rem; font-weight: 600; }
 
-    .section-box {
-      background-color: var(--white);
-      border-left: 6px solid var(--gold);
-      border-radius: 8px;
-      padding: 1.5rem;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-      margin-bottom: 2rem;
-    }
+  footer { background-color: var(--navy-blue); color: var(--gold); text-align: center; padding: 1rem 0; font-size: 0.85rem; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; border-top: 4px solid var(--gold); flex-shrink: 0; width: 100%; }
 
-    .section-box:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-      transition: 0.2s;
-    }
+  .page { display: none; }
+  .page.active { display: block; }
 
-    .rules {
-      background-color: var(--light-gray);
-      border: 2px solid var(--navy-blue);
-      border-radius: 8px;
-      padding: 1rem 1.5rem;
-      margin-top: 1rem;
-    }
-
-    .rules h3 {
-      background-color: var(--gold);
-      color: var(--navy-blue);
-      padding: 0.5rem 1rem;
-      border-radius: 5px 5px 0 0;
-      margin: -1rem -1.5rem 1rem -1.5rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      font-size: 1.1rem;
-    }
-
-    .rules ol {
-      padding-left: 1.2rem;
-      margin: 0;
-    }
-
-    .rules li {
-      margin: 0.5rem 0;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    /* Footer always at bottom */
-    footer {
-      background-color: var(--navy-blue);
-      color: var(--gold);
-      text-align: center;
-      padding: 1rem 0;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      font-weight: 700;
-      text-transform: uppercase;
-      border-top: 4px solid var(--gold);
-      flex-shrink: 0;
-      width: 100%;
-    }
-
-    /* Hide all pages by default */
-    .page { display: none; }
-
-    /* Show active page */
-    .page.active { display: block; }
-
-    /* Responsive adjustments */
-    @media (max-width: 600px) {
-      nav button { padding: 0.8rem 0.5rem; font-size: 0.9rem; }
-      header { font-size: 1.6rem; padding: 1.5rem 1rem; }
-      main { padding: 0 1rem; margin: 1rem auto; }
-    }
-  </style>
+  @media (max-width: 600px) { nav button { padding: 0.8rem 0.5rem; font-size: 0.9rem; } header { font-size: 1.6rem; padding: 1.5rem 1rem; } main { padding: 0 1rem; margin: 1rem auto; } }
+</style>
 </head>
 <body>
 
-  <nav>
-    <button onclick="showPage('main')">Main Page</button>
-    <button onclick="showPage('details')">Details</button>
-    <button onclick="showPage('rules')">Rules</button>
-    <button onclick="showPage('connect')">Connect</button>
-    <button onclick="showPage('contact')">Contact</button>
-  </nav>
+<nav>
+  <button onclick="showPage('main')">Main Page</button>
+  <button onclick="showPage('details')">Details</button>
+  <button onclick="showPage('rules')">Rules</button>
+  <button onclick="showPage('connect')">Connect</button>
+  <button onclick="showPage('contact')">Contact</button>
+</nav>
 
-  <header>
-    Eaglercraft Server
-  </header>
+<header>Eaglercraft Server</header>
 
-  <main>
-    <!-- Main Page -->
-    <section id="main" class="page active">
-      <h1>Main Page</h1>
-      <div class="section-box">
-        <p>Welcome to the Lancaster High School Eaglercraft Server! This is the central hub for all students to join, explore, and create together.</p>
-      </div>
-    </section>
+<main>
+  <!-- Main Page -->
+  <section id="main" class="page active">
+    <h1>Main Page</h1>
+    <div class="section-box">
+      <p>Welcome to the Lancaster High School Eaglercraft Server — a professionally moderated, student-led environment for learning, collaboration, and creative exploration. Our goal is to provide a safe and engaging experience for all participants.</p>
+    </div>
+    <div class="section-box">
+      <h2>Getting Started</h2>
+      <p>Navigate the server to find creative zones, collaborative building projects, and student-run events. Use the top navigation to explore rules, connect to the server, or contact administrators.</p>
+    </div>
+    <div class="section-box">
+      <h2>Highlights</h2>
+      <ul>
+        <li>Monthly building competitions and showcases</li>
+        <li>Dedicated learning zones for Redstone, command blocks, and design projects</li>
+        <li>Interactive tutorials for new players</li>
+        <li>Professional moderation for a safe environment</li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- Details Page -->
-    <section id="details" class="page">
-      <h1>Details</h1>
-      <div class="section-box">
-        <h2>Server Information</h2>
-        <p><strong>IP Address:</strong> wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</p>
-        <p><strong>Supported Versions:</strong> All except 1.5</p>
-        <p><strong>Recommended Version:</strong> 1.8.8 WASM-GC for best performance</p>
-      </div>
-      <div class="section-box">
-        <h2>Special Features</h2>
-        <ul>
-          <li>Creative building zones</li>
-          <li>Event competitions every month</li>
-          <li>Staff-moderated secure environment</li>
-        </ul>
-      </div>
-    </section>
+  <!-- Details Page -->
+  <section id="details" class="page">
+    <h1>Details</h1>
+    <div class="section-box">
+      <h2>Server Information</h2>
+      <p><strong>IP Address:</strong> wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</p>
+      <p><strong>Supported Versions:</strong> All except 1.5</p>
+      <p><strong>Recommended:</strong> 1.8.8 WASM-GC for best performance</p>
+    </div>
+    <div class="section-box">
+      <h2>Features & Zones</h2>
+      <ul>
+        <li>Creative Zone: unrestricted building for practice and experimentation</li>
+        <li>Adventure Zone: challenge maps and exploration areas</li>
+        <li>Collaboration Zone: team projects and large-scale builds</li>
+        <li>Redstone Academy: tutorials, challenges, and community guides</li>
+      </ul>
+    </div>
+    <div class="section-box">
+      <h2>Community & Events</h2>
+      <ul>
+        <li>Monthly competitions with featured prizes</li>
+        <li>Special seasonal events hosted by student leaders</li>
+        <li>Community feedback and voting for future projects</li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- Rules Page -->
-    <section id="rules" class="page">
-      <h1>Rules</h1>
-      <div class="rules">
-        <h3>Server Conduct</h3>
-        <ol>
-          <li>Respect everyone in chat and in-game.</li>
-          <li>No griefing or stealing builds.</li>
-          <li>No cheating or exploits.</li>
-          <li>Follow staff instructions at all times.</li>
-          <li>Keep builds appropriate and respectful.</li>
-          <li>Report issues to staff; don’t attempt to solve with destructive behavior.</li>
-        </ol>
-      </div>
-    </section>
+  <!-- Rules Page -->
+  <section id="rules" class="page">
+    <h1>Rules & Policies</h1>
+    <div class="rules">
+      <h3>General Conduct</h3>
+      <ol>
+        <li>Respect all participants; no harassment, discrimination, or bullying.</li>
+        <li>No griefing or stealing from other players’ builds.</li>
+        <li>Cheating, hacks, and exploits are strictly prohibited.</li>
+        <li>Follow all instructions from staff members immediately.</li>
+        <li>Keep chat and builds appropriate and constructive.</li>
+        <li>Report any issues to staff rather than taking matters into your own hands.</li>
+        <li>Repeated violations will result in temporary or permanent removal from the server.</li>
+        <li>All participants must follow Lancaster HS digital conduct standards.</li>
+      </ol>
+    </div>
+  </section>
 
-    <!-- Connect Page -->
-    <section id="connect" class="page">
-      <h1>How to Connect</h1>
-      <div class="section-box">
-        <p><strong>Step 1:</strong> Install Eaglercraft (all versions except 1.5).</p>
-        <p><strong>Step 2:</strong> Open Eaglercraft and select "Direct Connect".</p>
-        <p><strong>Step 3:</strong> Enter server IP: <strong>wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</strong></p>
-        <p><strong>Step 4:</strong> Join and enjoy!</p>
-      </div>
-    </section>
+  <!-- Connect Page -->
+  <section id="connect" class="page">
+    <h1>How to Connect</h1>
+    <div class="section-box">
+      <p><strong>Step 1:</strong> Install Eaglercraft (all versions except 1.5).</p>
+      <p><strong>Step 2:</strong> Open Eaglercraft and select "Direct Connect".</p>
+      <p><strong>Step 3:</strong> Enter the server IP: <strong>wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</strong></p>
+      <p><strong>Step 4:</strong> Join and explore the zones, participate in events, and collaborate on projects.</p>
+    </div>
+    <div class="section-box">
+      <h2>Tips for New Players</h2>
+      <ul>
+        <li>Start in the Creative Zone to familiarize yourself with building tools.</li>
+        <li>Participate in tutorials in the Redstone Academy to learn advanced techniques.</li>
+        <li>Engage with the community to find collaborators for larger projects.</li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- Contact Page -->
-    <section id="contact" class="page">
-      <h1>Contact</h1>
-      <div class="section-box">
-        <p>If you have questions or issues, contact the admin:</p>
-        <ul>
-          <li>Email: <a href="mailto:admin@example.com">admin@example.com</a></li>
-          <li>Discord: <strong>#Eaglercraft-LHS</strong></li>
-        </ul>
-      </div>
-    </section>
-  </main>
+  <!-- Contact Page -->
+  <section id="contact" class="page">
+    <h1>Contact & Support</h1>
+    <div class="section-box">
+      <p>If you encounter technical issues, have questions, or want to provide feedback, reach out to the server admin:</p>
+      <ul>
+        <li>Email: <a href="mailto:admin@example.com">admin@example.com</a></li>
+        <li>Discord: <strong>#Eaglercraft-LHS</strong></li>
+        <li>Response time: within 24 hours on school days</li>
+      </ul>
+    </div>
+    <div class="section-box">
+      <h2>Additional Resources</h2>
+      <ul>
+        <li>Server FAQ and guides (coming soon)</li>
+        <li>Community forum and project showcase</li>
+        <li>Event calendar and announcements</li>
+      </ul>
+    </div>
+  </section>
+</main>
 
-  <footer>
-    &copy; 2025 Lancaster High School | Student Project
-  </footer>
+<footer>&copy; 2025 Lancaster High School | Student Project</footer>
 
-  <script>
-    function showPage(pageId) {
-      const pages = document.querySelectorAll('.page');
-      pages.forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  </script>
+<script>
+  function showPage(pageId) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
 
 </body>
 </html>
