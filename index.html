@@ -12,11 +12,19 @@
       --white: #ffffff;
     }
 
-    body {
-      margin: 0;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--light-gray);
       color: var(--navy-blue);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     /* Top navigation */
@@ -28,6 +36,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      flex-shrink: 0;
     }
 
     nav button {
@@ -41,9 +50,7 @@
       font-size: 1rem;
     }
 
-    nav button:hover {
-      text-decoration: underline;
-    }
+    nav button:hover { text-decoration: underline; }
 
     header {
       text-align: center;
@@ -56,12 +63,15 @@
       letter-spacing: 2px;
       font-family: 'Arial Black', Arial, sans-serif;
       border-bottom: 5px solid var(--gold);
+      flex-shrink: 0;
     }
 
     main {
       max-width: 900px;
       margin: 2rem auto;
       padding: 0 1.5rem;
+      flex: 1; /* This allows main content to grow and push footer to bottom */
+      width: 100%;
     }
 
     h1, h2 {
@@ -72,10 +82,7 @@
       margin-bottom: 1rem;
     }
 
-    p, li {
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
+    p, li { font-size: 1.1rem; line-height: 1.6; }
 
     .section-box {
       background-color: var(--white);
@@ -122,7 +129,7 @@
       font-weight: 600;
     }
 
-    /* Footer */
+    /* Footer always at bottom */
     footer {
       background-color: var(--navy-blue);
       color: var(--gold);
@@ -133,17 +140,21 @@
       font-weight: 700;
       text-transform: uppercase;
       border-top: 4px solid var(--gold);
-      margin-top: 2rem;
+      flex-shrink: 0;
+      width: 100%;
     }
 
     /* Hide all pages by default */
-    .page {
-      display: none;
-    }
+    .page { display: none; }
 
     /* Show active page */
-    .page.active {
-      display: block;
+    .page.active { display: block; }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      nav button { padding: 0.8rem 0.5rem; font-size: 0.9rem; }
+      header { font-size: 1.6rem; padding: 1.5rem 1rem; }
+      main { padding: 0 1rem; margin: 1rem auto; }
     }
   </style>
 </head>
@@ -238,6 +249,7 @@
       const pages = document.querySelectorAll('.page');
       pages.forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
 
