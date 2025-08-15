@@ -1,312 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Eaglercraft Server — Lancaster HS</title>
-  <style>
-    :root{
-      --navy-blue:#002147;
-      --gold:#ffb81c;
-      --light-gray:#f4f4f4;
-      --white:#ffffff;
-      --max-width:1000px;
-      --nav-height:56px; /* approx; used for visual spacing */
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eaglercraft Server - Lancaster HS</title>
+<style>
+  :root {
+    --navy-blue: #002147;
+    --gold: #ffb81c;
+    --light-gray: #f4f4f4;
+    --white: #ffffff;
+  }
 
-    /* Reset & base */
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif;background:var(--light-gray);color:var(--navy-blue)}
-    body{display:flex;flex-direction:column;min-height:100vh;-webkit-font-smoothing:antialiased}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Top navigation */
-    nav{background:var(--navy-blue);border-bottom:4px solid var(--gold);position:sticky;top:0;z-index:120;display:flex;justify-content:center;align-items:center}
-    nav .nav-inner{display:flex;gap:.25rem;padding:.45rem .5rem}
-    nav button{background:none;border:0;color:var(--gold);font-weight:700;padding:.75rem 1rem;cursor:pointer;text-transform:uppercase;font-size:0.95rem;border-radius:6px}
-    nav button:hover, nav button:focus{outline:none;text-decoration:underline;box-shadow:inset 0 -2px 0 rgba(255,184,28,0.08)}
-    nav button.active{background:rgba(255,184,28,0.06);box-shadow:0 1px 0 rgba(0,0,0,0.06)}
+  html, body { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-gray); color: var(--navy-blue); }
 
-    /* Header */
-    header{background:linear-gradient(90deg,var(--navy-blue) 0%,#001530 100%);color:var(--gold);text-align:center;padding:1.6rem 1rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;border-bottom:5px solid var(--gold);font-family:Arial Black, Arial, sans-serif}
+  body { display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* Main container (holds pages in same spot) */
-    main{
-      position:relative;
-      flex:1;
-      max-width:var(--max-width);
-      margin:1.5rem auto;
-      padding:0;
-      width:100%;
-      display:block;
-    }
+  nav { background-color: var(--navy-blue); display: flex; justify-content: center; border-bottom: 4px solid var(--gold); position: sticky; top: 0; z-index: 100; flex-shrink: 0; }
+  nav button { background: none; border: none; color: var(--gold); font-weight: 700; padding: 1rem 1.5rem; cursor: pointer; text-transform: uppercase; font-size: 1rem; }
+  nav button:hover { text-decoration: underline; }
 
-    /* Content viewport inside main — this is the visible area where pages overlay */
-    .content-viewport{
-      position:relative;
-      width:100%;
-      height: calc(100vh -  (120px)); /* approximate header+nav+footer space; safe fallback */
-      max-height: 76vh;
-      margin: 0 auto;
-      padding: 1.5rem;
-      box-sizing:border-box;
-    }
+  header { text-align: center; padding: 2rem; font-size: 2rem; font-weight: 900; background: linear-gradient(90deg, var(--navy-blue) 0%, #001530 100%); color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-family: 'Arial Black', Arial, sans-serif; border-bottom: 5px solid var(--gold); flex-shrink: 0; }
 
-    /* When viewport is small, allow it to grow naturally */
-    @media (max-height:640px){
-      .content-viewport{max-height:none; height:auto}
-    }
+  main { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; flex: 1; width: 100%; }
 
-    /* Page overlay (stacked in same area) */
-    .page{
-      position:absolute;
-      inset:0; /* top:0; right:0; bottom:0; left:0 */
-      overflow:auto;
-      padding-right: 0.5rem; /* leave room for scrollbar */
-      background: transparent;
-      opacity:0;
-      visibility:hidden;
-      transform: translateY(6px);
-      transition: opacity .28s ease, transform .28s ease, visibility .28s;
-      will-change: opacity, transform;
-    }
-    .page.active{
-      opacity:1;
-      visibility:visible;
-      transform: translateY(0);
-      z-index:10;
-    }
+  h1, h2, h3 { font-weight: 900; text-transform: uppercase; border-left: 6px solid var(--gold); padding-left: 0.6rem; margin-bottom: 1rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.2rem; border-left: 4px solid var(--gold); padding-left: 0.5rem; margin-top: 1rem; }
 
-    /* Page inner box for consistent look */
-    .page-inner{
-      background:var(--white);
-      border-left:6px solid var(--gold);
-      border-radius:8px;
-      padding:1.4rem;
-      box-shadow:0 6px 18px rgba(0,0,0,0.06);
-      min-height:100%;
-      box-sizing:border-box;
-    }
+  p, li { font-size: 1.1rem; line-height: 1.6; }
 
-    h1,h2,h3{font-weight:900;text-transform:uppercase;margin:0 0 1rem 0}
-    h1{font-size:1.35rem;border-left:6px solid var(--gold);padding-left:.6rem}
-    h2{font-size:1.05rem;border-left:6px solid var(--gold);padding-left:.6rem;margin-top:.4rem}
-    h3{font-size:1rem;border-left:4px solid var(--gold);padding-left:.5rem;margin-top:.6rem}
+  .section-box { background-color: var(--white); border-left: 6px solid var(--gold); border-radius: 8px; padding: 1.5rem; box-shadow: 0 3px 8px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+  .section-box:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); transition: 0.2s; }
 
-    p,li{font-size:1rem;line-height:1.6;color:var(--navy-blue)}
+  .rules { background-color: var(--light-gray); border: 2px solid var(--navy-blue); border-radius: 8px; padding: 1rem 1.5rem; margin-top: 1rem; }
+  .rules h3 { background-color: var(--gold); color: var(--navy-blue); padding: 0.5rem 1rem; border-radius: 5px 5px 0 0; margin: -1rem -1.5rem 1rem -1.5rem; font-weight: 900; text-transform: uppercase; font-size: 1.1rem; }
+  .rules ol { padding-left: 1.2rem; margin: 0; }
+  .rules li { margin: 0.5rem 0; font-size: 1rem; font-weight: 600; }
 
-    .section { margin-bottom:1rem }
+  footer { background-color: var(--navy-blue); color: var(--gold); text-align: center; padding: 1rem 0; font-size: 0.85rem; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; border-top: 4px solid var(--gold); flex-shrink: 0; width: 100%; }
 
-    .rules{background:var(--light-gray);border:2px solid var(--navy-blue);border-radius:8px;padding:1rem 1.25rem;margin-top:1rem}
-    .rules h3{background:var(--gold);color:var(--navy-blue);padding:.45rem .9rem;border-radius:6px 6px 0 0;margin:-1rem -1.25rem 1rem -1.25rem;font-size:1rem}
-    .rules ol{padding-left:1.1rem;margin:0}
-    .rules li{margin:.5rem 0;font-weight:600}
+  .page { display: none; }
+  .page.active { display: block; }
 
-    /* Footer sticky to bottom */
-    footer{background:var(--navy-blue);color:var(--gold);text-align:center;padding:0.9rem 0;font-weight:700;text-transform:uppercase;border-top:4px solid var(--gold);flex-shrink:0;width:100%}
-
-    /* small helpers */
-    .muted{color:#4b5563}
-    ul{margin:0 0 0 1.1rem;padding:0}
-    a{color:var(--gold);text-decoration:none;font-weight:700}
-    a:hover{text-decoration:underline}
-
-    /* responsive */
-    @media (max-width:720px){
-      header{padding:1.2rem;font-size:1.2rem}
-      nav .nav-inner{gap:.1rem}
-      nav button{padding:.6rem .6rem;font-size:.88rem}
-      .content-viewport{padding:1rem;height:auto;max-height:none}
-      main{margin:.75rem auto}
-    }
-  </style>
+  @media (max-width: 600px) { nav button { padding: 0.8rem 0.5rem; font-size: 0.9rem; } header { font-size: 1.6rem; padding: 1.5rem 1rem; } main { padding: 0 1rem; margin: 1rem auto; } }
+</style>
 </head>
 <body>
-  <nav aria-label="Top navigation">
-    <div class="nav-inner" role="tablist" aria-label="Primary">
-      <button role="tab" aria-selected="true" data-target="main" class="active">Main Page</button>
-      <button role="tab" aria-selected="false" data-target="details">Details</button>
-      <button role="tab" aria-selected="false" data-target="rules">Rules</button>
-      <button role="tab" aria-selected="false" data-target="connect">Connect</button>
-      <button role="tab" aria-selected="false" data-target="contact">Contact</button>
+
+<nav>
+  <button onclick="showPage('main')">Main Page</button>
+  <button onclick="showPage('details')">Details</button>
+  <button onclick="showPage('rules')">Rules</button>
+  <button onclick="showPage('connect')">Connect</button>
+  <button onclick="showPage('contact')">Contact</button>
+</nav>
+
+<header>Eaglercraft Server</header>
+
+<main>
+  <!-- Main Page -->
+  <section id="main" class="page active">
+    <h1>Main Page</h1>
+    <div class="section-box">
+      <p>Welcome to the Lancaster High School Eaglercraft Server — a student-run Minecraft survival server. Our focus is on simplicity, collaboration, and learning in a safe, moderated environment.</p>
     </div>
-  </nav>
-
-  <header>Eaglercraft Server</header>
-
-  <main>
-    <div class="content-viewport" id="viewport">
-      <!-- MAIN -->
-      <section id="main" class="page active" tabindex="-1" aria-labelledby="main-heading">
-        <div class="page-inner">
-          <h1 id="main-heading">Main Page</h1>
-          <div class="section" role="region" aria-labelledby="welcome-heading">
-            <h2 id="welcome-heading">Welcome</h2>
-            <p>Welcome to the Lancaster High School Eaglercraft Server — a small, student-run Minecraft survival server focused on simple, respectful gameplay. Gather, survive, learn, and collaborate with classmates.</p>
-          </div>
-
-          <div class="section" role="region" aria-labelledby="getting-started-heading">
-            <h2 id="getting-started-heading">Getting Started</h2>
-            <p>On first login, collect basic resources like <strong>wood</strong> and <strong>stone</strong>. Craft a simple wooden pickaxe, upgrade to stone tools, and build a shelter to survive the night. Use the top buttons to move between sections.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- DETAILS -->
-      <section id="details" class="page" tabindex="-1" aria-labelledby="details-heading">
-        <div class="page-inner">
-          <h1 id="details-heading">Details</h1>
-
-          <div class="section" role="region" aria-labelledby="server-info">
-            <h2 id="server-info">Server Information</h2>
-            <p><strong>IP (WSS):</strong> <code>wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</code></p>
-            <p class="muted">See the <strong>Connect</strong> section for step-by-step connection instructions: download Eaglercraft, add the server, create an account, then begin survival play.</p>
-          </div>
-
-          <div class="section" role="region" aria-labelledby="zones-heading">
-            <h2 id="zones-heading">Server Areas</h2>
-            <ul>
-              <li><strong>Survival Area:</strong> Main world for gathering, crafting, and exploring.</li>
-              <li><strong>Collaborative Area:</strong> Optional zone for group projects if you choose to work with others.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- RULES -->
-      <section id="rules" class="page" tabindex="-1" aria-labelledby="rules-heading">
-        <div class="page-inner">
-          <h1 id="rules-heading">Rules & Policies</h1>
-
-          <div class="rules" role="region" aria-labelledby="conduct-heading">
-            <h3 id="conduct-heading">General Conduct</h3>
-            <ol>
-              <li>Be respectful: no harassment, hate speech, or bullying of any kind.</li>
-              <li>No griefing, stealing, or intentional destruction of other players' builds or items.</li>
-              <li>Use language appropriate for a school environment.</li>
-              <li>Follow directions from server staff immediately and respectfully.</li>
-              <li>Report issues to staff — do not retaliate or attempt destructive fixes yourself.</li>
-              <li>Persistent or severe violations may lead to temporary or permanent removal from the server.</li>
-              <li>All users are expected to follow Lancaster High School digital conduct expectations while on this server.</li>
-            </ol>
-          </div>
-
-          <div class="section" role="region" aria-labelledby="discipline-heading">
-            <h2 id="discipline-heading">Discipline & Appeals</h2>
-            <p>Administrators handle violations professionally. If you feel a decision is unfair, contact the server admin (see Contact) with a calm explanation and we will review it.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONNECT -->
-      <section id="connect" class="page" tabindex="-1" aria-labelledby="connect-heading">
-        <div class="page-inner">
-          <h1 id="connect-heading">How to Connect</h1>
-
-          <div class="section" role="region" aria-labelledby="download-heading">
-            <h2 id="download-heading">Download & Launch</h2>
-            <p><strong>Step 1:</strong> Download Eaglercraft — we don’t mind how you obtain the version you prefer (official HTML version or another compatible build). Use whichever method works best for you.</p>
-            <p><strong>Step 2:</strong> Open the game in your browser or chosen client.</p>
-          </div>
-
-          <div class="section" role="region" aria-labelledby="addserver-heading">
-            <h2 id="addserver-heading">Add the Server</h2>
-            <p><strong>Step 3:</strong> In the game menu, go to <em>Multiplayer → Add Server</em>.</p>
-            <p><strong>Step 4:</strong> Enter the server IP: <code>wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</code> and save.</p>
-            <p><strong>Step 5:</strong> Create a server account if prompted (username & any required info). Then join the server.</p>
-          </div>
-
-          <div class="section" role="region" aria-labelledby="survival-tips">
-            <h2 id="survival-tips">Survival Tips — First Things to Do</h2>
-            <ul>
-              <li>Collect <strong>wood</strong> immediately (punch trees) for basic tools.</li>
-              <li>Mine <strong>stone</strong> quickly to upgrade to stone tools and make a furnace.</li>
-              <li>Craft a workbench, build a small shelter, and light it to avoid hostile mobs at night.</li>
-              <li>Prioritize a wooden pickaxe → stone pickaxe → furnace so you can cook food and smelt resources.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACT -->
-      <section id="contact" class="page" tabindex="-1" aria-labelledby="contact-heading">
-        <div class="page-inner">
-          <h1 id="contact-heading">Contact & Support</h1>
-
-          <div class="section" role="region" aria-labelledby="admin-heading">
-            <h2 id="admin-heading">Server Admin</h2>
-            <p>If you need help, contact the server admin with a clear subject and description of the issue.</p>
-            <ul>
-              <li>Email: <a href="mailto:admin@example.com">admin@example.com</a></li>
-              <li>Discord: <strong>#Eaglercraft-LHS</strong> (link shared in school channels)</li>
-            </ul>
-            <p class="muted">Response goal: within 24 hours during school days.</p>
-          </div>
-
-          <div class="section" role="region" aria-labelledby="resources-heading">
-            <h2 id="resources-heading">Additional Resources</h2>
-            <ul>
-              <li>Server FAQ — coming soon.</li>
-              <li>Basic crafting guides available on request.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+    <div class="section-box">
+      <h2>Getting Started</h2>
+      <p>Begin by gathering essential resources such as wood and stone to craft your first tools and build a shelter. Navigate using the top buttons to explore rules, connect to the server, or contact admins.</p>
     </div>
-  </main>
+  </section>
 
-  <footer>&copy; 2025 Lancaster High School | Student Project</footer>
+  <!-- Details Page -->
+  <section id="details" class="page">
+    <h1>Details</h1>
+    <div class="section-box">
+      <h2>Server Information</h2>
+      <p><strong>IP Address:</strong> wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</p>
+      <p>For instructions on connecting, see the <strong>Connect</strong> page above. Download Eaglercraft, add the server, create an account, and start surviving!</p>
+    </div>
+    <div class="section-box">
+      <h2>Server Zones</h2>
+      <ul>
+        <li>Survival Area: gather resources, craft tools, build shelter, and explore.</li>
+        <li>Collaborative Area: work together with others for shared projects.</li>
+      </ul>
+    </div>
+  </section>
 
-  <script>
-    (function(){
-      const navButtons = Array.from(document.querySelectorAll('nav button[data-target]'));
-      const pages = Array.from(document.querySelectorAll('.page'));
+  <!-- Rules Page -->
+  <section id="rules" class="page">
+    <h1>Rules & Policies</h1>
+    <div class="rules">
+      <h3>General Conduct</h3>
+      <ol>
+        <li>Respect all players; no harassment, discrimination, or bullying.</li>
+        <li>No griefing, stealing, or destruction of others’ builds.</li>
+        <li>Use appropriate language at all times.</li>
+        <li>Follow instructions from server administrators immediately.</li>
+        <li>Behave responsibly online, following Lancaster HS digital conduct standards.</li>
+        <li>Report problems to staff rather than taking matters into your own hands.</li>
+        <li>Repeated violations may result in removal from the server.</li>
+      </ol>
+    </div>
+  </section>
 
-      function setActiveButton(btn){
-        navButtons.forEach(b=>{
-          const isActive = b === btn;
-          b.classList.toggle('active', isActive);
-          b.setAttribute('aria-selected', isActive ? 'true' : 'false');
-        });
-      }
+  <!-- Connect Page -->
+  <section id="connect" class="page">
+    <h1>How to Connect</h1>
+    <div class="section-box">
+      <p><strong>Step 1:</strong> Download Eaglercraft — we don’t mind how you get the version of your choice, whether it’s the official HTML version or another compatible build.</p>
+      <p><strong>Step 2:</strong> Open the game in your web browser or client.</p>
+      <p><strong>Step 3:</strong> In the menu, go to "Multiplayer" → "Add Server".</p>
+      <p><strong>Step 4:</strong> Enter the server IP: <strong>wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</strong> and save.</p>
+      <p><strong>Step 5:</strong> Create a server account if prompted.</p>
+      <p><strong>Step 6:</strong> Start surviving! Gather wood and stone, craft your first tools, and build a shelter.</p>
+    </div>
+    <div class="section-box">
+      <h2>Survival Tips</h2>
+      <ul>
+        <li>Gather wood and stone immediately for basic tools and shelter.</li>
+        <li>Build a small shelter to stay safe at night.</li>
+        <li>Manage resources wisely and explore carefully.</li>
+      </ul>
+    </div>
+  </section>
 
-      function showPage(id){
-        pages.forEach(p => p.classList.remove('active'));
-        const el = document.getElementById(id);
-        if(!el) return;
-        el.classList.add('active');
-        const btn = navButtons.find(b => b.dataset.target === id);
-        setActiveButton(btn || navButtons[0]);
-        // focus first heading for keyboard users
-        setTimeout(()=> el.querySelector('h1')?.focus?.(), 160);
-        // update hash without scrolling the page (so deep-linking works)
-        history.replaceState(null, '', '#'+id);
-      }
+  <!-- Contact Page -->
+  <section id="contact" class="page">
+    <h1>Contact & Support</h1>
+    <div class="section-box">
+      <p>If you have technical issues, questions, or feedback, reach out to the server admin:</p>
+      <ul>
+        <li>Email: <a href="mailto:admin@example.com">admin@example.com</a></li>
+        <li>Discord: <strong>#Eaglercraft-LHS</strong></li>
+        <li>Response time: within 24 hours on school days</li>
+      </ul>
+    </div>
+    <div class="section-box">
+      <h2>Additional Resources</h2>
+      <ul>
+        <li>Server FAQ and guides (coming soon)</li>
+        <li>Community forum and project showcase</li>
+        <li>Announcements and updates</li>
+      </ul>
+    </div>
+  </section>
+</main>
 
-      // Attach handlers
-      navButtons.forEach(btn => {
-        btn.addEventListener('click', ()=> showPage(btn.dataset.target));
-        btn.addEventListener('keydown', (e)=>{
-          if(e.key === 'Enter' || e.key === ' '){
-            e.preventDefault();
-            showPage(btn.dataset.target);
-          }
-        });
-      });
+<footer>&copy; 2025 Lancaster High School | Student Project</footer>
 
-      // Init from hash if present
-      (function initFromHash(){
-        const hash = location.hash.replace('#','');
-        if(hash && document.getElementById(hash)) {
-          showPage(hash);
-        } else {
-          // ensure main active by default
-          showPage('main');
-        }
-      })();
+<script>
+  function showPage(pageId) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
 
-      // Expose for debugging
-      window.__showPage = showPage;
-    })();
-  </script>
 </body>
 </html>
