@@ -20,7 +20,6 @@
       color: var(--navy-blue);
       margin: 0;
       padding: 0;
-      scroll-behavior: smooth;
     }
 
     nav {
@@ -41,15 +40,19 @@
 
     nav ul li { margin: 0 1rem; }
 
-    nav ul li a {
+    nav ul li button {
+      background: none;
+      border: none;
       color: var(--gold);
       font-weight: 700;
-      text-decoration: none;
       text-transform: uppercase;
       font-size: 1rem;
+      cursor: pointer;
     }
 
-    nav ul li a:hover { text-decoration: underline; }
+    nav ul li button:hover {
+      text-decoration: underline;
+    }
 
     header {
       background: linear-gradient(90deg, var(--navy-blue) 0%, #001530 100%);
@@ -68,10 +71,6 @@
       max-width: 900px;
       margin: 2rem auto;
       padding: 0 1.5rem;
-    }
-
-    section {
-      padding: 2rem 0;
     }
 
     h1, h2 {
@@ -144,16 +143,26 @@
       border-top: 4px solid var(--gold);
       margin-top: 2rem;
     }
+
+    /* Hide all pages by default */
+    .page {
+      display: none;
+    }
+
+    /* Show active page */
+    .page.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
 
   <nav>
     <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#rules">Rules</a></li>
-      <li><a href="#connect">How to Connect</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><button onclick="showPage('home')">Home</button></li>
+      <li><button onclick="showPage('rules')">Rules</button></li>
+      <li><button onclick="showPage('connect')">How to Connect</button></li>
+      <li><button onclick="showPage('contact')">Contact</button></li>
     </ul>
   </nav>
 
@@ -163,7 +172,7 @@
 
   <main>
     <!-- Home Section -->
-    <section id="home">
+    <section id="home" class="page active">
       <h1>Welcome</h1>
       <div class="section-box">
         <p>
@@ -180,7 +189,7 @@
     </section>
 
     <!-- Rules Section -->
-    <section id="rules">
+    <section id="rules" class="page">
       <h1>Rules & Policies</h1>
       <div class="rules">
         <h3>Official Conduct</h3>
@@ -198,7 +207,7 @@
     </section>
 
     <!-- Connect Section -->
-    <section id="connect">
+    <section id="connect" class="page">
       <h1>How to Connect</h1>
       <div class="section-box">
         <p><strong>Step 1:</strong> Make sure you have Eaglercraft installed. All versions except 1.5 are supported.</p>
@@ -209,7 +218,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact">
+    <section id="contact" class="page">
       <h1>Contact & Support</h1>
       <div class="section-box">
         <p>If you encounter issues or have questions about the server or website, please contact the server admin:</p>
@@ -225,6 +234,14 @@
   <footer>
     &copy; 2025 Lancaster High School | Student Project
   </footer>
+
+  <script>
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
