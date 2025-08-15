@@ -1,103 +1,43 @@
-:root {
-  --navy-blue: #002147;
-  --gold: #ffb81c;
-  --light-gray: #f4f4f4;
-  --white: #ffffff;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eaglercraft Server - Home</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="rules.html">Rules</a></li>
+      <li><a href="connect.html">How to Connect</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--light-gray);
-  color: var(--navy-blue);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+  <header>
+    Eaglercraft School Server
+  </header>
 
-/* Navigation bar */
-nav {
-  background-color: var(--navy-blue);
-  border-bottom: 4px solid var(--gold);
-  padding: 0.5rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+  <main>
+    <h1>Welcome</h1>
+    <div class="section-box">
+      <p>
+        Welcome to the <strong>Lancaster High School Eaglercraft Server</strong> — a student-hosted, professionally moderated space for creativity, building, and fun.  
+        Join classmates and enthusiasts in a respectful and safe environment.
+      </p>
+    </div>
+    <div class="section-box">
+      <h2>Server Info</h2>
+      <p><strong>IP:</strong> wss://super-train-x5x6r554v7j4fvj95-25565.app.github.dev/</p>
+      <p><strong>Supported Versions:</strong> All except Eaglercraft 1.5</p>
+      <p><strong>Recommended:</strong> 1.8.8 WASM-GC for best performance</p>
+    </div>
+  </main>
 
-nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-}
-
-nav ul li {
-  margin: 0 1rem;
-}
-
-nav ul li a {
-  color: var(--gold);
-  font-weight: 700;
-  text-decoration: none;
-  font-size: 1rem;
-  text-transform: uppercase;
-}
-
-nav ul li a:hover {
-  text-decoration: underline;
-}
-
-header {
-  background: linear-gradient(90deg, var(--navy-blue) 0%, #001530 100%);
-  padding: 1.5rem;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 900;
-  color: var(--gold);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-family: 'Arial Black', Arial, sans-serif;
-}
-
-main {
-  flex: 1;
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
-}
-
-h1, h2 {
-  font-weight: 900;
-  text-transform: uppercase;
-  border-left: 6px solid var(--gold);
-  padding-left: 0.6rem;
-  margin-bottom: 1rem;
-}
-
-p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-.section-box {
-  background-color: var(--white);
-  border-left: 6px solid var(--gold);
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-}
-
-footer {
-  background-color: var(--navy-blue);
-  color: var(--gold);
-  text-align: center;
-  padding: 1rem 0;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  font-weight: 700;
-  text-transform: uppercase;
-  border-top: 4px solid var(--gold);
-}
+  <footer>
+    &copy; 2025 Lancaster High School | Student Project
+  </footer>
+</body>
+</html>
